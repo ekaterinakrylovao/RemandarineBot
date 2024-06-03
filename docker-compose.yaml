@@ -11,6 +11,35 @@ services:
       POSTGRES_DB: remandarine
     ports:
       - "7432:5432"
+    volumes:
+      - postgres-data-todo:/var/lib/postgresql/data
+
+  tg_bot:
+    build: .
+    container_name: tg_bot
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - DB_HOST=postgres_todo
+      - DB_PORT=5432
+      - DB_USER=12345
+      - DB_PASSWORD=12345
+      - DB_NAME=remandarine
+    depends_on:
+      - postgres_todo
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
 
 volumes:
   postgres-data-todo:
+  jenkins_home:
