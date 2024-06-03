@@ -6,14 +6,13 @@ pipeline {
     }
 
     environment {
-        GITHUB_TOKEN = credentials('GITHUB_TOKEN')
+        GITHUB_TOKEN = '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'
     }
 
     stages {
         stage('Build') {
             steps {
                 echo 'Building...'
-                sh 'echo $GITHUB_TOKEN'
             }
         }
         stage('Download git repo') {
