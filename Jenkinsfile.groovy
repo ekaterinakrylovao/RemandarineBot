@@ -13,6 +13,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building...'
+                sh 'echo $GITHUB_TOKEN'
             }
         }
         stage('Download git repo') {
