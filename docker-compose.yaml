@@ -1,6 +1,22 @@
 version: '3.4'
 
 services:
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    #    volumes:
+    #      - .:/RPI_Bot
+    #      - ./migrations:/RPI_Bot/migrations
+    working_dir: /app
+    command: >
+      sh -c "python bot.py"
+    environment:
+      - TZ=Europe/Moscow
+      - DB_URL=postgresql://12345:12345@postgres_todo/remandarine
+    depends_on:
+      - postgres_todo
+
   postgres_todo:
     restart: always
     image: postgres:15.3-alpine
@@ -13,23 +29,6 @@ services:
       - "7432:5432"
     volumes:
       - postgres-data-todo:/var/lib/postgresql/data
-
-  tg_bot:
-    build: .
-    container_name: tg_bot
-    environment:
-      - BOT_TOKEN=${BOT_TOKEN}
-      - DB_HOST=postgres_todo
-      - DB_PORT=5432
-      - DB_USER=12345
-      - DB_PASSWORD=12345
-      - DB_NAME=remandarine
-    depends_on:
-      - postgres_todo
-    ports:
-      - "8000:8000"
-    volumes:
-      - .:/app
 
   jenkins:
     image: jenkins/jenkins:lts
