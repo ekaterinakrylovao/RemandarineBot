@@ -5,10 +5,6 @@ pipeline {
         githubPush()
     }
 
-    environment {
-        GITHUB_TOKEN = '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'
-    }
-
     stages {
         stage('Build') {
             steps {
@@ -21,11 +17,11 @@ pipeline {
                 script {
                     if (isUnix()) {
                         sh 'rm -rf RemandarineBot'
-                        sh 'git clone --depth=1 https://$GITHUB_TOKEN@github.com/ekaterinakrylovao/RemandarineBot.git'
+                        sh 'git clone --depth=1 https://github.com/ekaterinakrylovao/RemandarineBot.git'
                         sh 'rm -rf RemandarineBot/.git*'
                     } else {
                         bat 'powershell -Command "Get-ChildItem -Path .\\* -Recurse | Remove-Item -Force -Recurse"'
-                        bat 'git clone --depth=1 https://$GITHUB_TOKEN@github.com/ekaterinakrylovao/RemandarineBot.git'
+                        bat 'git clone --depth=1 https://github.com/ekaterinakrylovao/RemandarineBot.git'
                         bat 'powershell Remove-Item RemandarineBot/.git* -Recurse -Force'
                     }
                 }
