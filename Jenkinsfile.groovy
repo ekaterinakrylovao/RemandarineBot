@@ -49,9 +49,9 @@ pipeline {
             echo '===============run docker==================='
                 script {
                     if (isUnix()) {
-                        sh 'cd Reminder_Bot && docker-compose up -d --build'
+                        sh 'cd RemandarineBot && docker-compose up -d --build'
                     } else {
-                        bat 'cd Reminder_Bot && docker-compose up -d --build'
+                        bat 'cd RemandarineBot && docker-compose up -d --build'
                     }
                 }
                 echo '===============docker container is running successfully==================='
