@@ -1,6 +1,14 @@
 pipeline {
     agent any
 
+    triggers {
+        githubPush()
+    }
+
+    environment {
+        GITHUB_TOKEN = credentials('GITHUB_TOKEN')
+    }
+
     stages {
         stage('Build') {
             steps {
@@ -9,29 +17,29 @@ pipeline {
         }
         stage('Download git repo') {
             steps {
-                echo '===============downloading git repo==================='
+                echo 'Downloading git repo...'
                 script {
                     if (isUnix()) {
                         sh 'rm -rf RemandarineBot'
-                        sh 'git clone --depth=1 https://github.com/ekaterinakrylovao/RemandarineBot.git'
+                        sh 'git clone --depth=1 https://$GITHUB_TOKEN@github.com/ekaterinakrylovao/RemandarineBot.git'
                         sh 'rm -rf RemandarineBot/.git*'
                     } else {
                         bat 'powershell -Command "Get-ChildItem -Path .\\* -Recurse | Remove-Item -Force -Recurse"'
-                        bat 'git clone --depth=1 https://github.com/ekaterinakrylovao/RemandarineBot.git'
+                        bat 'git clone --depth=1 https://$GITHUB_TOKEN@github.com/ekaterinakrylovao/RemandarineBot.git'
                         bat 'powershell Remove-Item RemandarineBot/.git* -Recurse -Force'
                     }
                 }
-                echo '===============git repo downloaded==================='
+                echo 'Git repo downloaded'
             }
         }
         stage('Getting creds and env variables') {
             steps {
-                echo '===============getting env variables==================='
+                echo 'Getting creds and env variables...'
                 withCredentials([file(credentialsId: 'ENV', variable: 'ENV'), file(credentialsId: 'CREDS', variable: 'CREDS'), file(credentialsId: 'TOKEN', variable: 'TOKEN')]) {
                     script {
                         if (isUnix()) {
                             sh 'cp $ENV ./RemandarineBot/.env'
-                            sh 'cp $REDS ./RemandarineBot/credentials.json'
+                            sh 'cp $CREDS ./RemandarineBot/credentials.json'
                             sh 'cp $TOKEN ./RemandarineBot/token.json'
                         } else {
                             bat 'powershell Copy-Item %ENV% -Destination ./RemandarineBot/.env'
@@ -40,21 +48,21 @@ pipeline {
                         }
                     }
                 }
-                echo '===============got creds and env variables==================='
+                echo 'Creds and env variables retrieved'
             }
         }
     }
     post {
         success {
-            echo '===============run docker==================='
-                script {
-                    if (isUnix()) {
-                        sh 'cd RemandarineBot && docker-compose up -d --build'
-                    } else {
-                        bat 'cd RemandarineBot && docker-compose up -d --build'
-                    }
+            echo 'Running docker...'
+            script {
+                if (isUnix()) {
+                    sh 'cd RemandarineBot && docker-compose up -d --build'
+                } else {
+                    bat 'cd RemandarineBot && docker-compose up -d --build'
                 }
-                echo '===============docker container is running successfully==================='
             }
+            echo 'Docker container is running successfully'
         }
     }
+}
