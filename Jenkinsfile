@@ -6,14 +6,10 @@ pipeline {
     }
 
     stages {
-        stage('Check Docker-Compose') {
-            steps {
-                script {
-                    def dockerComposePath = '"C:\\Program Files\\Docker\\cli-plugins\\docker-compose.exe"'
-                    bat "set PATH=%PATH%;" + dockerComposePath
-                    bat "docker-compose --version"
+        stage('test') {
+            withEnv(["PATH=$PATH:~/.local/bin"]){
+                    sh "bash test.sh"
                 }
-            }
         }
         stage('Build') {
             steps {
@@ -65,8 +61,8 @@ pipeline {
                     sh 'cd RemandarineBot && docker-compose --version'
                     sh 'cd RemandarineBot && docker-compose up -d --build'
                 } else {
-                    bat 'cd RemandarineBot && C:\\Program Files\\Docker\\Dockercli-plugins\\docker-compose.exe --version'
-                    bat 'cd RemandarineBot && C:\\Program Files\\Docker\\cli-plugins\\docker-compose.exe up -d --build'
+                    bat 'cd RemandarineBot && docker-compose.exe --version'
+                    bat 'cd RemandarineBot && docker-compose.exe up -d --build'
                 }
             }
             echo 'Docker container is running successfully'
