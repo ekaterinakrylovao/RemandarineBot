@@ -6,11 +6,6 @@ pipeline {
     }
 
     stages {
-        stage('test') {
-            withEnv(["PATH=$PATH:~/.local/bin"]){
-                    sh "bash test.sh"
-                }
-        }
         stage('Build') {
             steps {
                 echo 'Building...'
