@@ -9,9 +9,9 @@ pipeline {
         stage('Check Docker-Compose') {
             steps {
                 script {
-                    def dockerComposePath = 'C:\\Program Files\\Docker\\Docker\\resources\\cli-plugins\\docker-compose.exe'
-                    sh "set PATH=%PATH%;${dockerComposePath}"
-                    sh "docker-compose --version"
+                    def dockerComposePath = '"C:\\Program Files\\Docker\\Docker\\resources\\cli-plugins\\docker-compose.exe"'
+                    bat "set PATH=%PATH%;" + dockerComposePath
+                    bat "docker-compose --version"
                 }
             }
         }
