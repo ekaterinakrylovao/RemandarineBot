@@ -10,7 +10,7 @@ pipeline {
             steps {
                 script {
                     def dockerComposePath = 'C:\\Program Files\\Docker\\Docker\\resources\\cli-plugins\\docker-compose.exe'
-                    sh "export PATH=%PATH%;${dockerComposePath}"
+                    sh "set PATH=%PATH%;${dockerComposePath}"
                     sh "docker-compose --version"
                 }
             }
