@@ -6,12 +6,12 @@ pipeline {
     }
 
     stages {
+    stages {
         stage('Check Docker-Compose') {
             steps {
                 script {
                     def dockerComposePath = '"C:\\Program Files\\Docker\\Docker\\resources\\cli-plugins\\docker-compose.exe"'
-                    bat "set PATH=%PATH%;" + dockerComposePath
-                    bat "docker-compose --version"
+                    sh "export PATH=$PATH:$dockerComposePath && docker-compose --version"
                 }
             }
         }
