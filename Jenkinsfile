@@ -18,11 +18,13 @@ pipeline {
                     if (isUnix()) {
                         sh 'rm -rf RemandarineBot'
                         sh 'git clone --depth=1 https://github.com/ekaterinakrylovao/RemandarineBot.git'
+                        sh 'ls -la RemandarineBot' // Проверим содержимое каталога после клонирования
                         sh 'rm -rf RemandarineBot/.git*'
                     } else {
-                        bat 'powershell -Command "Get-ChildItem -Path .\\* -Recurse | Remove-Item -Force -Recurse"'
+                        bat 'powershell -Command "Remove-Item -Recurse -Force -Path RemandarineBot"'
                         bat 'git clone --depth=1 https://github.com/ekaterinakrylovao/RemandarineBot.git'
                         bat 'powershell Remove-Item RemandarineBot/.git* -Recurse -Force'
+                        bat 'dir RemandarineBot' // Проверим содержимое каталога после клонирования
                     }
                 }
                 echo 'Git repo downloaded'
