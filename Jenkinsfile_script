@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+
+    environment {
+        FOLDER_ID = credentials('ENV')['FOLDER_ID']
+    }
+
+    stages {
+        stage('Install dependencies') {
+            steps {
+                script {
+                    // Установка зависимостей
+                    sh 'pip install -r requirements.txt'
+                }
+            }
+        }
+
+        stage('Run script') {
+            steps {
+                script {
+                    // Получение секрета с service-account-file.json
+                    withCredentials([file(credentialsId: 'SERVICE_ACCOUNT_KEY', variable: 'SERVICE_ACCOUNT_FILE')]) {
+                        // Запуск script.py с использованием переданного файла и переменной окружения FOLDER_ID
+                        sh 'python script.py'
+                    }
+                }
+            }
+        }
+    }
+}
