@@ -1,4 +1,5 @@
 from aiogram import Router, Bot, F
+from aiogram.enums import ParseMode
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 from aiogram.filters import Command
@@ -45,7 +46,7 @@ async def set_case_description(query: CallbackQuery, state: FSMContext, bot=Bot)
     await bot.delete_message(chat_id=query.message.chat.id, message_id=query.message.message_id)
     data = await state.get_data()
     name = data.get("name")
-    await bot.send_message(chat_id=query.from_user.id, text=f"Напишите описание к событию {name}")
+    await bot.send_message(chat_id=query.from_user.id, text=f"Напишите описание к событию _{name}_", parse_mode=ParseMode.MARKDOWN)
     await state.set_state(NewCaseStates.set_case_description)
 
 

@@ -222,6 +222,7 @@ async def start_delete_file(message: Message, command: CommandObject):
 #     await state.clear()
 
 
+@router.callback_query(EditCaseStates.waiting_for_new_date, SimpleCalendarCallback.filter())
 async def process_new_date_selection(callback_query: CallbackQuery, callback_data: CallbackData, state: FSMContext):
     selected, date = await SimpleCalendar(locale='ru_RU.utf8').process_selection(
         callback_query, callback_data)
