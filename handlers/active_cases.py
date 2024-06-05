@@ -262,7 +262,8 @@ async def process_new_repeat_selection(query: CallbackQuery, callback_data: Repe
     db.sql_query(update(Cases).where(Cases.id == case_id).values(repeat=repeat_option), is_update=True)
     # data = await state.get_data()
     name = data.get('case')
-    await query.answer(text=f"Периодичность напоминания _{name.name}_ обновлена на {repeat_option}", parse_mode=ParseMode.MARKDOWN)
+    await query.answer(text=f"Периодичность напоминания _{name.name}_ обновлена на {repeat_option}",
+                       parse_mode=ParseMode.MARKDOWN)
     await state.clear()
 
 
