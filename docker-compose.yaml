@@ -7,14 +7,12 @@ services:
       - "3000:3000"
     working_dir: /app
     command: >
-      sh -c "/wait-for-it.sh postgres_todo:5432 -- python bot.py"  # Добавляем ожидание базы данных перед запуском приложения
+      sh -c "python bot.py"
     environment:
       - TZ=Europe/Moscow
       - DB_URL=postgresql://12345:12345@postgres_todo/remandarine
     depends_on:
       - postgres_todo
-    volumes:
-      - postgres-data-todo:/var/lib/postgresql/data
 
   postgres_todo:
     restart: always
@@ -26,6 +24,8 @@ services:
       POSTGRES_DB: remandarine
     ports:
       - "7432:5432"
+    volumes:
+      - postgres-data-todo:/var/lib/postgresql/data
 
 volumes:
   postgres-data-todo:
