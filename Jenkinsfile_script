@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        FOLDER_ID = credentials('ENV')['FOLDER_ID']
+        FOLDER_ID = "${ENV.FOLDER_ID}"
     }
 
     stages {
