@@ -93,8 +93,7 @@ async def process_field_choice(query: CallbackQuery, state: FSMContext, bot: Bot
 
     if field == 'deadline_date':
         await bot.send_message(chat_id=query.from_user.id, text="Выберите новую дату:",
-                               reply_markup=await SimpleCalendar(
-                                   locale=await get_user_locale(query.from_user)).start_calendar())
+                               reply_markup=await SimpleCalendar(locale='ru_RU.utf8').start_calendar())
         await state.set_state(EditCaseStates.waiting_for_new_date)
     elif field == 'repeat':
         await bot.send_message(chat_id=query.from_user.id, text="Выберите новую периодичность:",
@@ -224,7 +223,7 @@ async def start_delete_file(message: Message, command: CommandObject):
 
 
 async def process_new_date_selection(callback_query: CallbackQuery, callback_data: CallbackData, state: FSMContext):
-    selected, date = await SimpleCalendar(locale=await get_user_locale(callback_query.from_user)).process_selection(
+    selected, date = await SimpleCalendar(locale='ru_RU.utf8').process_selection(
         callback_query, callback_data)
     if selected:
         await state.update_data(new_date=date.strftime('%Y-%m-%d'))

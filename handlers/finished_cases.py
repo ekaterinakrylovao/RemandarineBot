@@ -58,8 +58,7 @@ async def ask_restore_date(query: CallbackQuery, callback_data: ManageCaseCallba
     case_id = callback_data.case_id
     await state.update_data(case_id=case_id)
     await query.message.answer("На какую дату восстановить напоминание?",
-                               reply_markup=await SimpleCalendar(
-                                   locale=await get_user_locale(query.from_user)).start_calendar())
+                               reply_markup=await SimpleCalendar(locale='ru_RU.utf8').start_calendar())
     await state.set_state(FinishedCasesStates.waiting_for_restore_date)
 
 

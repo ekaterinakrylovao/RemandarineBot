@@ -9,6 +9,8 @@ services:
     command: >
       sh -c "python bot.py"
     environment:
+      - LANG=ru_RU.UTF-8
+      - LC_ALL=ru_RU.UTF-8
       - TZ=Europe/Moscow
       - DB_URL=postgresql://12345:12345@postgres_todo/remandarine
     depends_on:

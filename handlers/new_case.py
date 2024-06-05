@@ -57,8 +57,7 @@ async def skip_case_description(query: CallbackQuery, state: FSMContext, bot=Bot
     await state.update_data(description=description)
     await bot.send_message(chat_id=query.from_user.id, text="Продолжаем без описания\n"
                                                             "Выберите дату",
-                           reply_markup=await SimpleCalendar(
-                               locale=await get_user_locale(query.from_user)).start_calendar())
+                           reply_markup=await SimpleCalendar(locale='ru_RU.utf8').start_calendar())
     await state.set_state(NewCaseStates.select_date)
 
 
@@ -67,8 +66,7 @@ async def set_case_date(message: Message, state: FSMContext, bot=Bot):
     await state.update_data(description=message.text)
     await bot.send_message(chat_id=message.from_user.id, text="Описанию быть!\n"
                                                               "Выберите дату",
-                           reply_markup=await SimpleCalendar(
-                               locale=await get_user_locale(message.from_user)).start_calendar())
+                           reply_markup=await SimpleCalendar(locale='ru_RU.utf8').start_calendar())
     await state.set_state(NewCaseStates.select_date)
 
 
