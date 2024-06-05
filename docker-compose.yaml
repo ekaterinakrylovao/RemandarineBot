@@ -5,9 +5,6 @@ services:
     build: .
     ports:
       - "3000:3000"
-    #    volumes:
-    #      - .:/RPI_Bot
-    #      - ./migrations:/RPI_Bot/migrations
     working_dir: /app
     command: >
       sh -c "python bot.py"
@@ -31,13 +28,17 @@ services:
       - postgres-data-todo:/var/lib/postgresql/data
 
   jenkins:
-    image: jenkins/jenkins:lts
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins
     container_name: jenkins
     ports:
-      - "8080:8080"
-      - "50000:50000"
+      - "8081:8080"
+      - "50001:50000"
+    user: root
     volumes:
-      - jenkins_home:/var/jenkins_home
+      - //c/Users/Katya/Downloads/jenkins_for:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
   postgres-data-todo:
