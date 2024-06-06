@@ -13,6 +13,7 @@ __pycache__/
 token.json
 credentials.json
 service-account-file.json
+.env.docker
 
 # Исключить системные файлы (например, для macOS и Windows)
 .DS_Store
