@@ -18,8 +18,8 @@ dp.include_routers(user.router, new_case.router, active_cases.router, finished_c
 
 
 async def main():
-    scheduler.add_job(check_and_send_reminders, 'interval', seconds=30, args=[bot])
-    scheduler.start()
+    # scheduler.add_job(check_and_send_reminders, 'interval', seconds=30, args=[bot])
+    # scheduler.start()
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 

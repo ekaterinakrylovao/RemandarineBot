@@ -4,7 +4,7 @@ services:
   api:
     build: .
     ports:
-      - "3000:3000"
+      - "5000:5000"
     working_dir: /app
     command: >
       sh -c "python bot.py"
