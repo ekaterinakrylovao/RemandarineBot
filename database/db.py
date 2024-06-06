@@ -45,5 +45,5 @@ class Database:
 
 load_dotenv()
 logging.basicConfig(level=logging.INFO)
-db = Database(os.getenv("db_url"))
+db = Database(os.getenv("DB_URL"))
 db.connect()
