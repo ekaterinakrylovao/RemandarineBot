@@ -123,7 +123,8 @@ download_files(FOLDER_ID, download_path)
 
 # 2. Создание дампа базы данных
 db_url = os.getenv('db_url')
-pg_dump_path = "C:\\Program Files\\PostgreSQL\\15\\bin\\pg_dump.exe"
+# pg_dump_path = "C:\\Program Files\\PostgreSQL\\15\\bin\\pg_dump.exe"
+pg_dump_path = "C:\\Users\\Katya\\Downloads\\jenkins_for\\workspace\\archive_mandarines\\pg_dump.exe"
 create_db_dump(db_dump_path, db_url, pg_dump_path)
 
 # 3. Архивирование и шифрование
