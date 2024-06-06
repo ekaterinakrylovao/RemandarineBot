@@ -20,7 +20,7 @@ router = Router()
 
 async def check_and_send_reminders(bot):
     now = datetime.now()
-    window = now + timedelta(seconds=30)
+    window = now + timedelta(seconds=180)
     cases = db.sql_query(query=select(Cases).where(Cases.deadline_date >= now, Cases.deadline_date <= window,
                                                    Cases.is_finished == 'false'), is_single=False)
     for case in cases:
