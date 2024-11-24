@@ -20,6 +20,15 @@ from aiogram.filters.callback_data import CallbackData
 
 from handlers.new_case import upload_file_to_drive, get_credentials
 
+# from loguru import logger
+import logging
+import logging.config
+from config import logger_conf
+
+logging.config.dictConfig(logger_conf)
+
+logger = logging.getLogger('my_python_logger')
+
 
 router = Router()
 
@@ -34,6 +43,7 @@ async def get_current_cases(message: Message, state: FSMContext, bot: Bot):
         return
     await bot.send_message(chat_id=message.from_user.id, text='Ваши текущие напоминания', reply_markup=cases_keyboard)
     await state.set_state(CurrentCasesStates.get_current_cases)
+    logger.info(f"User {message.from_user.id} looking for mandarines")
 
 
 @router.callback_query(CurrentCasesStates.get_current_cases, CurrentCaseCallBack.filter())
@@ -46,6 +56,7 @@ async def download_file(query: CallbackQuery, callback_data: FileCallback, bot: 
     management_keyboard = create_case_management_keyboard(case_id)
     await bot.send_message(chat_id=query.from_user.id, text=reminders_msg, reply_markup=management_keyboard)
     await state.set_state(CurrentCasesStates.get_case_action)
+    logger.info(f"User {query.from_user.id} looking at mandarine")
 
 
 @router.callback_query(CurrentCasesStates.get_case_action, ManageCaseCallback.filter(F.action == "complete"))

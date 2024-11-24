@@ -16,4 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+# Создание директории для логов
+RUN mkdir -p /app/logs
+
 CMD ["python", "bot.py"]

@@ -7,7 +7,6 @@ google-auth-httplib2==0.2.0
 google_auth_oauthlib==1.2.0
 protobuf==5.27.0
 python-dotenv==1.0.1
-python_dateutil==2.9.0.post0
 SQLAlchemy~=2.0.30
 alembic==1.13.1
 psycopg2-binary==2.9.9
@@ -35,3 +34,5 @@ typing_extensions==4.9.0
 tzdata==2024.1
 tzlocal==5.2
 yarl==1.9.4
+python-dateutil~=2.9.0.post0
+python-logging-loki~=0.3.1

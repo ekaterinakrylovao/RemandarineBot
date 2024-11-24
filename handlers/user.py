@@ -9,6 +9,15 @@ from attachments.keyboards import main_kb
 from database.models import Users
 from database.db import db
 
+# from loguru import logger
+import logging
+import logging.config
+from config import logger_conf
+
+logging.config.dictConfig(logger_conf)
+
+logger = logging.getLogger('my_python_logger')
+
 
 router = Router()
 
@@ -25,9 +34,11 @@ async def start(message: Message):
         db.create_object(Users(id=user_id, username=username, first_name=first_name, last_name=last_name))
         await message.answer(text="Добро пожаловать в Remandarine Bot!",
                              reply_markup=main_kb)
+        logger.info(f"New user created: {user_id} - {username}")
     else:
         await message.answer(text="С возвращением в Remandarine Bot!",
                              reply_markup=main_kb)
+        logger.info(f"Existing user returned: {user_id} - {username}")
 
 
 @router.message(Command('stop'))
@@ -35,3 +46,4 @@ async def stop(message: Message, state: FSMContext):
     await state.clear()
     await message.answer(text="Продолжаем работу в Remandarine Bot!",
                          reply_markup=main_kb)
+    logger.info(f"User {message.from_user.id} stopped the bot")

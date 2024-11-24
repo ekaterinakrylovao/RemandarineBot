@@ -20,6 +20,15 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
+# from loguru import logger
+import logging
+import logging.config
+from config import logger_conf
+
+logging.config.dictConfig(logger_conf)
+
+logger = logging.getLogger('my_python_logger')
+
 
 router = Router()
 
@@ -28,6 +37,7 @@ router = Router()
 async def enter(message: Message, state: FSMContext, bot=Bot):
     await bot.send_message(chat_id=message.from_user.id, text="Введите название события")
     await state.set_state(NewCaseStates.set_case_name)
+    logger.info(f"User {message.from_user.id} started creating new case", extra={'tags': {'user_id': message.from_user.id}})
 
 
 @router.message(NewCaseStates.set_case_name, F.text)

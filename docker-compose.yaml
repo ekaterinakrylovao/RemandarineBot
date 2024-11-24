@@ -15,6 +15,8 @@ services:
       - DB_URL=postgresql://12345:12345@postgres_todo/remandarine
     depends_on:
       - postgres_todo
+    volumes:
+      - logs:/app/logs
 
   postgres_todo:
     restart: always
@@ -29,5 +31,28 @@ services:
     volumes:
       - postgres-data-todo:/var/lib/postgresql/data
 
+  loki:
+    image: grafana/loki:2.7.1
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./loki-config.yaml:/etc/loki/local-config.yaml
+
+  promtail:
+    image: grafana/promtail:2.7.1
+    volumes:
+      - ./promtail-config.yaml:/etc/promtail/promtail.yaml
+      - logs:/app/logs
+    command: -config.file=/etc/promtail/promtail.yaml
+
+  grafana:
+    image: grafana/grafana:8.3.3
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+
 volumes:
   postgres-data-todo:
+  logs:
